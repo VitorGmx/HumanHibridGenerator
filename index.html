@@ -1,240 +1,175 @@
-<!DOCTYPE html><html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerador de Híbridos Coerentes</title>  <style>
-    body{
-      font-family: var(--font, Arial);
-      background:#121212;
-      color:#fff;
-      margin:0;
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Híbridos</title>
 
-    h1{margin-bottom:18px;}
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#121212;
+  color:#fff;
+  margin:0;
+  padding:20px;
+}
 
-    .container{
-      width:100%;
-      max-width:900px;
-      display:flex;
-      justify-content:center;
-    }
+h1{
+  text-align:center;
+}
 
-    .controls{
-      width:100%;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+.container{
+  max-width:900px;
+  margin:auto;
+}
 
-    .row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:10px 14px;
-      border:1px solid #2a2a2a;
-      border-radius:10px;
-      background:#171717;
-    }
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#1c1c1c;
+  padding:10px;
+  margin:8px 0;
+  border-radius:10px;
+}
 
-    button{
-      background:#ff7aa8;
-      border:none;
-      padding:8px 12px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:bold;
-      color:#000;
-      width:140px;
-    }
+button{
+  background:#ff7aa8;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    button.locked{
-      background:#444;
-      color:#aaa;
-      cursor:not-allowed;
-    }
+button:disabled{
+  background:#444;
+  color:#aaa;
+  cursor:not-allowed;
+}
 
-    .value{
-      flex:1;
-      margin-left:12px;
-      background:#1f1f1f;
-      border:1px solid #333;
-      padding:8px 10px;
-      border-radius:8px;
-      min-height:20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-    }
+.value{
+  flex:1;
+  margin-left:10px;
+}
 
-    .box{
-      background:#0f0f0f;
-      border:1px solid #333;
-      padding:6px 10px;
-      border-radius:8px;
-      width:100%;
-      display:flex;
-      justify-content:space-between;
-      margin:2px 0;
-    }
+.box{
+  background:#000;
+  padding:6px;
+  margin:4px 0;
+  border-radius:6px;
+}
 
-    .extras{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      flex:1;
-      margin-left:12px;
-    }
+</style>
+</head>
 
-    footer{
-      margin-top:20px;
-      font-size:12px;
-      opacity:0.7;
-    }
+<body>
 
-    .font-box{
-      margin-top:10px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
+<h1>Gerador de Híbridos Coerentes</h1>
 
-    select{
-      background:#1f1f1f;
-      color:#fff;
-      border:1px solid #333;
-      padding:4px 8px;
-      border-radius:6px;
-    }
-  </style></head>
-<body><h1>Gerador de Híbridos Coerentes</h1><div class="font-box">
-  Fonte:
-  <select onchange="changeFont(this.value)">
-    <option value="Arial">Arial</option>
-    <option value="Verdana">Verdana</option>
-    <option value="Georgia">Georgia</option>
-    <option value="Courier New">Courier</option>
-  </select>
-</div><div class="container">
-  <div class="controls"><div class="row"><button id="baseBtn" onclick="setBase()">Base</button><div class="value" id="base"></div></div>
-<div class="row"><button id="generoBtn" onclick="setGenero()">Gênero</button><div class="value" id="genero"></div></div>
-<div class="row"><button id="rostoBtn" onclick="setRosto()">Rosto</button><div class="value" id="rosto"></div></div>
-<div class="row"><button id="olhosBtn" onclick="setOlhos()">Olhos</button><div class="value" id="olhos"></div></div>
-<div class="row"><button id="narizBtn" onclick="setNariz()">Nariz</button><div class="value" id="nariz"></div></div>
-<div class="row"><button id="orelhasBtn" onclick="setOrelhas()">Orelhas</button><div class="value" id="orelhas"></div></div>
+<div class="container">
 
-<div class="row"><button id="cabeloBtn" onclick="setCabelo()">Cabelo</button><div class="value" id="cabelo"></div></div>
-<div class="row"><button id="vestimentaBtn" onclick="setVestimenta()">Vestimenta</button><div class="value" id="vestimenta"></div></div>
+  <div class="row"><button id="baseBtn">Base</button><div id="base" class="value"></div></div>
+  <div class="row"><button id="generoBtn">Gênero</button><div id="genero" class="value"></div></div>
+  <div class="row"><button id="rostoBtn">Rosto</button><div id="rosto" class="value"></div></div>
+  <div class="row"><button id="olhosBtn">Olhos</button><div id="olhos" class="value"></div></div>
+  <div class="row"><button id="narizBtn">Nariz</button><div id="nariz" class="value"></div></div>
+  <div class="row"><button id="cabeloBtn">Cabelo</button><div id="cabelo" class="value"></div></div>
+  <div class="row"><button id="vestimentaBtn">Vestimenta</button><div id="vestimenta" class="value"></div></div>
+  <div class="row"><button id="poseBtn">Pose</button><div id="pose" class="value"></div></div>
 
-<div class="row"><button id="maosBtn" onclick="setMaos()">Mãos</button><div class="value" id="maos"></div></div>
-<div class="row"><button id="pesBtn" onclick="setPes()">Pés</button><div class="value" id="pes"></div></div>
-<div class="row"><button id="corBtn" onclick="setCor()">Cor</button><div class="value" id="cor"></div></div>
-<div class="row"><button id="poseBtn" onclick="setPose()">Pose</button><div class="value" id="pose"></div></div>
-
-<div class="row">
-  <button id="extrasBtn" onclick="setExtras()">Extras</button>
-  <div class="extras" id="extras">
-    <div class="box">-</div>
-    <div class="box">-</div>
-    <div class="box">-</div>
-    <div class="box">-</div>
+  <div class="row">
+    <button id="extrasBtn">Extras</button>
+    <div id="extras" class="value"></div>
   </div>
+
 </div>
 
-  </div>
-</div><footer>feito por: Vitor</footer><script>
-const traits={
-  base:["Humano","Elfo","Goblin","Orc","Vampiro","Anjo","Demônio","Gigante","Sereia","Lobisomem"],
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+const traits = {
+  base:["Humano","Elfo","Goblin","Orc","Vampiro","Anjo","Demônio","Gigante"],
   genero:["masculino","feminino"],
-  rosto:["fino","quadrado","animal","antigo","marcado","vazio"],
-  olhos:["normais","negros","dourados","heterocromia","de luz","de inseto"],
-  nariz:["reto","quebrado","achatado","fino"],
-  orelhas:["humanas","pontudas","felinas","dracônicas","sem orelha"],
-
-  cabelo:["curto","médio","longo","crespo","liso","ondulado","loiro curto","loiro longo","moreno liso","moreno bagunçado"],
-
-  vestimenta:["rasgada","leve","pesada","tribal","arcaica","sombria","ritual","capa","mago","natureza","caçador"],
-
-  maos:["normais","garras","dedos longos","metálicas"],
-  pes:["humanos","digitígrados","cascos","flutuantes"],
-  cor:["pálido","negro","cinza","azulado"],
-  pose:["em pé","agachado","flutuando","correndo","sentado","em combate","de joelhos","levitando"],
-  extras:["chifres","cogumelos","flores","espinhos","fumaça","asas","ossos expostos","cristais","musgo vivo","energia instável"]
+  rosto:["fino","quadrado","marcado","animal"],
+  olhos:["negros","dourados","heterocromia","normais"],
+  nariz:["reto","quebrado","fino","achatado"],
+  cabelo:["curto","longo","crespo","liso","loiro","moreno","ondulado"],
+  vestimenta:["leve","pesada","tribal","arcaica","capa","mago","caçador","ritual"],
+  pose:["em pé","agachado","correndo","flutuando","combate"],
+  extras:["chifres","asas","fumaça","ossos","cristais","musgo","espinhos"]
 };
 
-let locked={};
+let locked = {};
 
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function pick(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
 
-function animate(list,cb){
-  let i=0;
-  const t=setInterval(()=>{
-    cb(pick(list));
+function setTrait(key){
+  if(locked[key]) return;
+
+  const el = document.getElementById(key);
+  const btn = document.getElementById(key+"Btn");
+
+  let i = 0;
+  const anim = setInterval(() => {
+    el.innerText = pick(traits[key]);
     i++;
-    if(i>8)clearInterval(t);
-  },60);
+    if(i > 6) clearInterval(anim);
+  }, 60);
+
+  setTimeout(() => {
+    const final = pick(traits[key]);
+    el.innerHTML = "<div class='box'>- " + final + "</div>";
+    locked[key] = true;
+    btn.disabled = true;
+  }, 500);
 }
-
-function lock(btn){btn.classList.add("locked");btn.disabled=true;}
-
-function setTrait(key,id){
-  if(locked[key])return;
-  animate(traits[key],v=>document.getElementById(id).innerText=v);
-  setTimeout(()=>{
-    const v=pick(traits[key]);
-    document.getElementById(id).innerHTML="<div class='box'>- " + v + "</div>";
-    locked[key]=true;
-    lock(document.getElementById(id+"Btn"));
-  },700);
-}
-
-function setBase(){setTrait("base","base");}
-function setGenero(){setTrait("genero","genero");}
-function setRosto(){setTrait("rosto","rosto");}
-function setOlhos(){setTrait("olhos","olhos");}
-function setNariz(){setTrait("nariz","nariz");}
-function setOrelhas(){setTrait("orelhas","orelhas");}
-function setCabelo(){setTrait("cabelo","cabelo");}
-function setVestimenta(){setTrait("vestimenta","vestimenta");}
-function setMaos(){setTrait("maos","maos");}
-function setPes(){setTrait("pes","pes");}
-function setCor(){setTrait("cor","cor");}
-function setPose(){setTrait("pose","pose");}
 
 function setExtras(){
-  if(locked.extras)return;
+  if(locked.extras) return;
 
-  const boxes=document.querySelectorAll("#extras .box");
-  let used=[];
+  const el = document.getElementById("extras");
+  let used = [];
 
-  let i=0;
-  const interval=setInterval(()=>{
-    boxes.forEach(b=>b.innerText="-");
-    boxes.forEach(b=>b.innerText=pick(traits.extras));
+  let i = 0;
+  const anim = setInterval(() => {
+    el.innerText = pick(traits.extras);
     i++;
-    if(i>8)clearInterval(interval);
-  },80);
+    if(i > 6) clearInterval(anim);
+  }, 60);
 
-  setTimeout(()=>{
-    boxes.forEach(b=>{
+  setTimeout(() => {
+    el.innerHTML = "";
+
+    for(let j=0;j<4;j++){
       let v;
-      do{v=pick(traits.extras);}while(used.includes(v));
+      do{
+        v = pick(traits.extras);
+      }while(used.includes(v));
+
       used.push(v);
-      b.innerHTML="- " + v;
-    });
 
-    locked.extras=true;
-    lock(document.getElementById("extrasBtn"));
-  },800);
+      const div = document.createElement("div");
+      div.className = "box";
+      div.innerText = "- " + v;
+      el.appendChild(div);
+    }
+
+    locked.extras = true;
+    document.getElementById("extrasBtn").disabled = true;
+  }, 500);
 }
 
-function changeFont(f){
-  document.documentElement.style.setProperty("--font", f);
-}
-</script></body>
+["base","genero","rosto","olhos","nariz","cabelo","vestimenta","pose"].forEach(k=>{
+  document.getElementById(k+"Btn").onclick = () => setTrait(k);
+});
+
+document.getElementById("extrasBtn").onclick = setExtras;
+
+});
+</script>
+
+</body>
 </html>
