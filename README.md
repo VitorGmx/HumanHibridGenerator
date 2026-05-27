@@ -10,7 +10,7 @@ O sistema combina atributos físicos, estéticos e mutações aleatórias para g
 ## 🌐 Demonstração
 
 👉 Acesse o projeto via GitHub Pages:  
-(https://vitorgmx.github.io/HumanHibridGenerator/)
+(https://vitorgmx.github.io/HumanHybridGenerator/)
 
 ---
 
