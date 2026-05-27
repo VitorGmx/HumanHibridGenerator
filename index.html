@@ -3,43 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de Híbridos</title>
+<title>Gerador de Criaturas</title>
 
 <style>
 body{
-  font-family: Arial, sans-serif;
-  background:#121212;
-  color:#fff;
   margin:0;
-  padding:20px;
+  font-family: Arial;
+  background:#111;
+  color:#fff;
 }
 
 h1{
   text-align:center;
+  margin:20px 0;
 }
 
 .container{
   max-width:900px;
   margin:auto;
+  padding:10px;
 }
 
 .row{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   background:#1c1c1c;
-  padding:10px;
   margin:8px 0;
+  padding:10px;
   border-radius:10px;
 }
 
 button{
   background:#ff7aa8;
   border:none;
-  padding:8px 12px;
+  padding:10px;
   border-radius:8px;
   cursor:pointer;
   font-weight:bold;
+  width:140px;
 }
 
 button:disabled{
@@ -60,12 +62,17 @@ button:disabled{
   border-radius:6px;
 }
 
+footer{
+  text-align:center;
+  margin:20px;
+  opacity:0.7;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Gerador de Híbridos Coerentes</h1>
+<h1>Gerador de Criaturas</h1>
 
 <div class="container">
 
@@ -85,57 +92,74 @@ button:disabled{
 
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+<footer>feito por: Vitor</footer>
 
-const traits = {
-  base:["Humano","Elfo","Goblin","Orc","Vampiro","Anjo","Demônio","Gigante"],
+<script>
+"use strict";
+
+/* =========================
+   DADOS
+========================= */
+const data = {
+  base:["Humano","Elfo","Goblin","Orc","Vampiro","Anjo","Demônio","Gigante","Sereia","Lobisomem"],
   genero:["masculino","feminino"],
   rosto:["fino","quadrado","marcado","animal"],
   olhos:["negros","dourados","heterocromia","normais"],
   nariz:["reto","quebrado","fino","achatado"],
-  cabelo:["curto","longo","crespo","liso","loiro","moreno","ondulado"],
-  vestimenta:["leve","pesada","tribal","arcaica","capa","mago","caçador","ritual"],
-  pose:["em pé","agachado","correndo","flutuando","combate"],
-  extras:["chifres","asas","fumaça","ossos","cristais","musgo","espinhos"]
+  cabelo:["curto","longo","crespo","liso","ondulado","loiro curto","moreno liso"],
+  vestimenta:["leve","pesada","tribal","arcaica","capa","mago simples","caçador","ritual simples"],
+  pose:["em pé","agachado","correndo","flutuando","em combate"],
+  extras:["chifres","asas","fumaça","ossos","cristais","musgo","espinhos","energia instável"]
 };
 
 let locked = {};
 
-function pick(arr){
-  return arr[Math.floor(Math.random()*arr.length)];
+/* =========================
+   FUNÇÕES SEGURAS
+========================= */
+
+function rand(arr){
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function animate(el, arr, cb){
+  let i = 0;
+  const t = setInterval(() => {
+    el.textContent = rand(arr);
+    i++;
+    if(i > 6) clearInterval(t);
+  }, 60);
 }
 
 function setTrait(key){
   if(locked[key]) return;
 
   const el = document.getElementById(key);
-  const btn = document.getElementById(key+"Btn");
+  const btn = document.getElementById(key + "Btn");
 
-  let i = 0;
-  const anim = setInterval(() => {
-    el.innerText = pick(traits[key]);
-    i++;
-    if(i > 6) clearInterval(anim);
-  }, 60);
+  animate(el, data[key]);
 
   setTimeout(() => {
-    const final = pick(traits[key]);
-    el.innerHTML = "<div class='box'>- " + final + "</div>";
+    const final = rand(data[key]);
+    el.innerHTML = `<div class="box">- ${final}</div>`;
     locked[key] = true;
     btn.disabled = true;
-  }, 500);
+  }, 450);
 }
+
+/* =========================
+   EXTRAS (4 slots seguros)
+========================= */
 
 function setExtras(){
   if(locked.extras) return;
 
   const el = document.getElementById("extras");
-  let used = [];
+  const used = [];
 
   let i = 0;
   const anim = setInterval(() => {
-    el.innerText = pick(traits.extras);
+    el.textContent = rand(data.extras);
     i++;
     if(i > 6) clearInterval(anim);
   }, 60);
@@ -143,30 +167,40 @@ function setExtras(){
   setTimeout(() => {
     el.innerHTML = "";
 
-    for(let j=0;j<4;j++){
+    for(let i = 0; i < 4; i++){
       let v;
-      do{
-        v = pick(traits.extras);
-      }while(used.includes(v));
+      do {
+        v = rand(data.extras);
+      } while(used.includes(v));
 
       used.push(v);
 
       const div = document.createElement("div");
       div.className = "box";
-      div.innerText = "- " + v;
+      div.textContent = "- " + v;
       el.appendChild(div);
     }
 
     locked.extras = true;
     document.getElementById("extrasBtn").disabled = true;
-  }, 500);
+  }, 450);
 }
 
-["base","genero","rosto","olhos","nariz","cabelo","vestimenta","pose"].forEach(k=>{
-  document.getElementById(k+"Btn").onclick = () => setTrait(k);
-});
+/* =========================
+   EVENTOS (seguro pro GitHub)
+========================= */
 
-document.getElementById("extrasBtn").onclick = setExtras;
+window.addEventListener("DOMContentLoaded", () => {
+
+  const keys = ["base","genero","rosto","olhos","nariz","cabelo","vestimenta","pose"];
+
+  keys.forEach(k => {
+    const btn = document.getElementById(k + "Btn");
+    btn.addEventListener("click", () => setTrait(k));
+  });
+
+  document.getElementById("extrasBtn")
+    .addEventListener("click", setExtras);
 
 });
 </script>
