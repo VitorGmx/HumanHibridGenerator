@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Híbridos Coerentes</title>  <style>
+    body{
+      font-family: var(--font, Arial);
+      background:#121212;
+      color:#fff;
+      margin:0;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+
+    h1{margin-bottom:18px;}
+
+    .container{
+      width:100%;
+      max-width:900px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .controls{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 14px;
+      border:1px solid #2a2a2a;
+      border-radius:10px;
+      background:#171717;
+    }
+
+    button{
+      background:#ff7aa8;
+      border:none;
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:bold;
+      color:#000;
+      width:140px;
+    }
+
+    button.locked{
+      background:#444;
+      color:#aaa;
+      cursor:not-allowed;
+    }
+
+    .value{
+      flex:1;
+      margin-left:12px;
+      background:#1f1f1f;
+      border:1px solid #333;
+      padding:8px 10px;
+      border-radius:8px;
+      min-height:20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+
+    .box{
+      background:#0f0f0f;
+      border:1px solid #333;
+      padding:6px 10px;
+      border-radius:8px;
+      width:100%;
+      display:flex;
+      justify-content:space-between;
+      margin:2px 0;
+    }
+
+    .extras{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      flex:1;
+      margin-left:12px;
+    }
+
+    footer{
+      margin-top:20px;
+      font-size:12px;
+      opacity:0.7;
+    }
+
+    .font-box{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    select{
+      background:#1f1f1f;
+      color:#fff;
+      border:1px solid #333;
+      padding:4px 8px;
+      border-radius:6px;
+    }
+  </style></head>
+<body><h1>Gerador de Híbridos Coerentes</h1><div class="font-box">
+  Fonte:
+  <select onchange="changeFont(this.value)">
+    <option value="Arial">Arial</option>
+    <option value="Verdana">Verdana</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Courier New">Courier</option>
+  </select>
+</div><div class="container">
+  <div class="controls"><div class="row"><button id="baseBtn" onclick="setBase()">Base</button><div class="value" id="base"></div></div>
+<div class="row"><button id="generoBtn" onclick="setGenero()">Gênero</button><div class="value" id="genero"></div></div>
+<div class="row"><button id="rostoBtn" onclick="setRosto()">Rosto</button><div class="value" id="rosto"></div></div>
+<div class="row"><button id="olhosBtn" onclick="setOlhos()">Olhos</button><div class="value" id="olhos"></div></div>
+<div class="row"><button id="narizBtn" onclick="setNariz()">Nariz</button><div class="value" id="nariz"></div></div>
+<div class="row"><button id="orelhasBtn" onclick="setOrelhas()">Orelhas</button><div class="value" id="orelhas"></div></div>
+
+<div class="row"><button id="cabeloBtn" onclick="setCabelo()">Cabelo</button><div class="value" id="cabelo"></div></div>
+<div class="row"><button id="vestimentaBtn" onclick="setVestimenta()">Vestimenta</button><div class="value" id="vestimenta"></div></div>
+
+<div class="row"><button id="maosBtn" onclick="setMaos()">Mãos</button><div class="value" id="maos"></div></div>
+<div class="row"><button id="pesBtn" onclick="setPes()">Pés</button><div class="value" id="pes"></div></div>
+<div class="row"><button id="corBtn" onclick="setCor()">Cor</button><div class="value" id="cor"></div></div>
+<div class="row"><button id="poseBtn" onclick="setPose()">Pose</button><div class="value" id="pose"></div></div>
+
+<div class="row">
+  <button id="extrasBtn" onclick="setExtras()">Extras</button>
+  <div class="extras" id="extras">
+    <div class="box">-</div>
+    <div class="box">-</div>
+    <div class="box">-</div>
+    <div class="box">-</div>
+  </div>
+</div>
+
+  </div>
+</div><footer>feito por: Vitor</footer><script>
+const traits={
+  base:["Humano","Elfo","Goblin","Orc","Vampiro","Anjo","Demônio","Gigante","Sereia","Lobisomem"],
+  genero:["masculino","feminino"],
+  rosto:["fino","quadrado","animal","antigo","marcado","vazio"],
+  olhos:["normais","negros","dourados","heterocromia","de luz","de inseto"],
+  nariz:["reto","quebrado","achatado","fino"],
+  orelhas:["humanas","pontudas","felinas","dracônicas","sem orelha"],
+
+  cabelo:["curto","médio","longo","crespo","liso","ondulado","loiro curto","loiro longo","moreno liso","moreno bagunçado"],
+
+  vestimenta:["rasgada","leve","pesada","tribal","arcaica","sombria","ritual","capa","mago","natureza","caçador"],
+
+  maos:["normais","garras","dedos longos","metálicas"],
+  pes:["humanos","digitígrados","cascos","flutuantes"],
+  cor:["pálido","negro","cinza","azulado"],
+  pose:["em pé","agachado","flutuando","correndo","sentado","em combate","de joelhos","levitando"],
+  extras:["chifres","cogumelos","flores","espinhos","fumaça","asas","ossos expostos","cristais","musgo vivo","energia instável"]
+};
+
+let locked={};
+
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+function animate(list,cb){
+  let i=0;
+  const t=setInterval(()=>{
+    cb(pick(list));
+    i++;
+    if(i>8)clearInterval(t);
+  },60);
+}
+
+function lock(btn){btn.classList.add("locked");btn.disabled=true;}
+
+function setTrait(key,id){
+  if(locked[key])return;
+  animate(traits[key],v=>document.getElementById(id).innerText=v);
+  setTimeout(()=>{
+    const v=pick(traits[key]);
+    document.getElementById(id).innerHTML="<div class='box'>- " + v + "</div>";
+    locked[key]=true;
+    lock(document.getElementById(id+"Btn"));
+  },700);
+}
+
+function setBase(){setTrait("base","base");}
+function setGenero(){setTrait("genero","genero");}
+function setRosto(){setTrait("rosto","rosto");}
+function setOlhos(){setTrait("olhos","olhos");}
+function setNariz(){setTrait("nariz","nariz");}
+function setOrelhas(){setTrait("orelhas","orelhas");}
+function setCabelo(){setTrait("cabelo","cabelo");}
+function setVestimenta(){setTrait("vestimenta","vestimenta");}
+function setMaos(){setTrait("maos","maos");}
+function setPes(){setTrait("pes","pes");}
+function setCor(){setTrait("cor","cor");}
+function setPose(){setTrait("pose","pose");}
+
+function setExtras(){
+  if(locked.extras)return;
+
+  const boxes=document.querySelectorAll("#extras .box");
+  let used=[];
+
+  let i=0;
+  const interval=setInterval(()=>{
+    boxes.forEach(b=>b.innerText="-");
+    boxes.forEach(b=>b.innerText=pick(traits.extras));
+    i++;
+    if(i>8)clearInterval(interval);
+  },80);
+
+  setTimeout(()=>{
+    boxes.forEach(b=>{
+      let v;
+      do{v=pick(traits.extras);}while(used.includes(v));
+      used.push(v);
+      b.innerHTML="- " + v;
+    });
+
+    locked.extras=true;
+    lock(document.getElementById("extrasBtn"));
+  },800);
+}
+
+function changeFont(f){
+  document.documentElement.style.setProperty("--font", f);
+}
+</script></body>
+</html>
