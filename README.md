@@ -1,8 +1,5 @@
 # 🧬 Hybrid Creature Generator
 
-![GitHub repo size](https://img.shields.io/github/repo-size/your-repo)
-![GitHub last commit](https://img.shields.io/github/last-commit/your-repo)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 Um gerador interativo de criaturas híbridas humanoides, projetado para criação rápida de personagens, conceitos visuais e worldbuilding.
 
@@ -13,7 +10,7 @@ O sistema combina atributos físicos, estéticos e mutações aleatórias para g
 ## 🌐 Demonstração
 
 👉 Acesse o projeto via GitHub Pages:  
-https://your-username.github.io/your-repo/
+(https://vitorgmx.github.io/HumanHibridGenerator/)
 
 ---
 
@@ -93,9 +90,3 @@ Cada criatura recebe 4 atributos únicos adicionais, como:
 Sem frameworks, sem dependências externas.
 
 ---
-
-## 🚀 Como executar localmente
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/your-username/your-repo.git
